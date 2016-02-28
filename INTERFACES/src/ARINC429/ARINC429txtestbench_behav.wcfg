@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ARINC429_testbench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="ARINC429_testbench" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="66666666666fs"></ZoomStartTime>
+      <ZoomEndTime time="466666666667fs"></ZoomEndTime>
+      <Cursor1Time time="341217565000fs"></Cursor1Time>
+   </zoom_setting>
+   <WVObjectSize size="13" />
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/adr1" type="array">
+      <obj_property name="ElementShortName">adr1[7:0]</obj_property>
+      <obj_property name="ObjectShortName">adr1[7:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/dat1" type="array">
+      <obj_property name="ElementShortName">dat1[22:0]</obj_property>
+      <obj_property name="ObjectShortName">dat1[22:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/X0" type="logic">
+      <obj_property name="ElementShortName">X0</obj_property>
+      <obj_property name="ObjectShortName">X0</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/X1" type="logic">
+      <obj_property name="ElementShortName">X1</obj_property>
+      <obj_property name="ObjectShortName">X1</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/adr" type="array">
+      <obj_property name="ElementShortName">adr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">adr[7:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/dat" type="array">
+      <obj_property name="ElementShortName">dat[22:0]</obj_property>
+      <obj_property name="ObjectShortName">dat[22:0]</obj_property>
+      <obj_property name="Reversed">false</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/uut/RX/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/uut/RX/in0" type="logic">
+      <obj_property name="ElementShortName">in0</obj_property>
+      <obj_property name="ObjectShortName">in0</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/uut/RX/in1" type="logic">
+      <obj_property name="ElementShortName">in1</obj_property>
+      <obj_property name="ObjectShortName">in1</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/uut/RX/recv" type="array">
+      <obj_property name="ElementShortName">recv[31:0]</obj_property>
+      <obj_property name="ObjectShortName">recv[31:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/uut/RX/parity" type="logic">
+      <obj_property name="ElementShortName">parity</obj_property>
+      <obj_property name="ObjectShortName">parity</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/ARINC429_testbench/ce_wr" type="logic">
+      <obj_property name="ElementShortName">ce_wr</obj_property>
+      <obj_property name="ObjectShortName">ce_wr</obj_property>
+   </wvobject>
+</wave_config>

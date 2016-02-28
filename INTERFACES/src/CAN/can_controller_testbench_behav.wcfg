@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="can_controller_testbench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="can_controller_testbench" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="7557326400fs"></ZoomStartTime>
+      <ZoomEndTime time="63057326401fs"></ZoomEndTime>
+      <Cursor1Time time="107639640000fs"></Cursor1Time>
+   </zoom_setting>
+   <WVObjectSize size="28" />
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/GCLK" type="logic">
+      <obj_property name="ElementShortName">GCLK</obj_property>
+      <obj_property name="ObjectShortName">GCLK</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DIN1" type="array">
+      <obj_property name="ElementShortName">DIN1[107:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN1[107:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DOUT1" type="array">
+      <obj_property name="ElementShortName">DOUT1[107:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT1[107:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_start1" type="logic">
+      <obj_property name="ElementShortName">tx_start1</obj_property>
+      <obj_property name="ObjectShortName">tx_start1</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_ready1" type="logic">
+      <obj_property name="ElementShortName">tx_ready1</obj_property>
+      <obj_property name="ObjectShortName">tx_ready1</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/rx_ready1" type="logic">
+      <obj_property name="ElementShortName">rx_ready1</obj_property>
+      <obj_property name="ObjectShortName">rx_ready1</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/tx" type="logic">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/rx" type="logic">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/tsync" type="logic">
+      <obj_property name="ElementShortName">tsync</obj_property>
+      <obj_property name="ObjectShortName">tsync</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/bit_cnt" type="array">
+      <obj_property name="ElementShortName">bit_cnt[63:0]</obj_property>
+      <obj_property name="ObjectShortName">bit_cnt[63:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/cntmn" type="logic">
+      <obj_property name="ElementShortName">cntmn</obj_property>
+      <obj_property name="ObjectShortName">cntmn</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/cntmn_ready" type="logic">
+      <obj_property name="ElementShortName">cntmn_ready</obj_property>
+      <obj_property name="ObjectShortName">cntmn_ready</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/have_arb" type="logic">
+      <obj_property name="ElementShortName">have_arb</obj_property>
+      <obj_property name="ObjectShortName">have_arb</obj_property>
+      <obj_property name="CustomSignalColor">#800000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/can_state" type="array">
+      <obj_property name="ElementShortName">can_state[127:0]</obj_property>
+      <obj_property name="ObjectShortName">can_state[127:0]</obj_property>
+      <obj_property name="CustomSignalColor">#808000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CAN" type="logic">
+      <obj_property name="ElementShortName">CAN</obj_property>
+      <obj_property name="ObjectShortName">CAN</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DIN2" type="array">
+      <obj_property name="ElementShortName">DIN2[107:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN2[107:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DOUT2" type="array">
+      <obj_property name="ElementShortName">DOUT2[107:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT2[107:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_start2" type="logic">
+      <obj_property name="ElementShortName">tx_start2</obj_property>
+      <obj_property name="ObjectShortName">tx_start2</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_ready2" type="logic">
+      <obj_property name="ElementShortName">tx_ready2</obj_property>
+      <obj_property name="ObjectShortName">tx_ready2</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/rx_ready2" type="logic">
+      <obj_property name="ElementShortName">rx_ready2</obj_property>
+      <obj_property name="ObjectShortName">rx_ready2</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/tx" type="logic">
+      <obj_property name="ElementShortName">tx</obj_property>
+      <obj_property name="ObjectShortName">tx</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/rx" type="logic">
+      <obj_property name="ElementShortName">rx</obj_property>
+      <obj_property name="ObjectShortName">rx</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/tsync" type="logic">
+      <obj_property name="ElementShortName">tsync</obj_property>
+      <obj_property name="ObjectShortName">tsync</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/bit_cnt" type="array">
+      <obj_property name="ElementShortName">bit_cnt[63:0]</obj_property>
+      <obj_property name="ObjectShortName">bit_cnt[63:0]</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/cntmn" type="logic">
+      <obj_property name="ElementShortName">cntmn</obj_property>
+      <obj_property name="ObjectShortName">cntmn</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/cntmn_ready" type="logic">
+      <obj_property name="ElementShortName">cntmn_ready</obj_property>
+      <obj_property name="ObjectShortName">cntmn_ready</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/have_arb" type="logic">
+      <obj_property name="ElementShortName">have_arb</obj_property>
+      <obj_property name="ObjectShortName">have_arb</obj_property>
+      <obj_property name="CustomSignalColor">#800000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/can_state" type="array">
+      <obj_property name="ElementShortName">can_state[127:0]</obj_property>
+      <obj_property name="ObjectShortName">can_state[127:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+      <obj_property name="CustomSignalColor">#808000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+</wave_config>

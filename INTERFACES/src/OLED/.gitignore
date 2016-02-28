@@ -1,0 +1,11 @@
+*
+
+!.gitignore
+!Delay.v
+!SpiCtrl.v
+!ZedboardOLED.v
+!charLib.coe
+!charLib.veo
+!charLib.vho
+!charLib.xci
+!charLib.xml
