@@ -38,22 +38,33 @@ module sandbox
     input wire BTNU
     );
     
-    reg [127:0] str0;
-    reg [127:0] str1;
-    reg [127:0] str2;
-    reg [127:0] str3;
-
-    assign OLED_S0 = str0;
-    assign OLED_S1 = str1;
-    assign OLED_S2 = str2;
-    assign OLED_S3 = str3;
+    wire MISO;
+    wire MOSI;
+    wire SS;
+    wire SCLK;
    
-   
-    always @(posedge GCLK) begin
-        str0 <= "SPI interface";
-        str1 <= ".";
-        str2 <= ".";
-        str3 <= "----------------";
-    end
+    SPI spi
+        (
+        // External interfaces
+        .str0(OLED_S0),
+        .str1(OLED_S1),
+        .str2(OLED_S2),
+        .str3(OLED_S3),
+        .GCLK(GCLK),
+        .RST(BTND),
+        .SW(SW),
+        // Transmission start switch
+        .st(BTNC),
+        // SPI Master bus
+        .MASTER_MISO(MISO),
+        .MASTER_MOSI(MOSI),
+        .MASTER_SS(SS),
+        .MASTER_SCLK(SCLK),
+        // SPI Slave bus
+        .SLAVE_MOSI(MOSI),
+        .SLAVE_MISO(MISO),
+        .SLAVE_SS(SS),
+        .SLAVE_SCLK(SCLK)
+        );
 
 endmodule

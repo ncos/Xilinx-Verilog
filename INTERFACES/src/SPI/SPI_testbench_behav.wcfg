@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="SPI_testbench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="SPI_testbench" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="5422538000fs"></ZoomStartTime>
+      <ZoomEndTime time="8522538001fs"></ZoomEndTime>
+      <Cursor1Time time="10300000000fs"></Cursor1Time>
+   </zoom_setting>
+   <WVObjectSize size="12" />
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/GCLK" type="logic">
+      <obj_property name="ElementShortName">GCLK</obj_property>
+      <obj_property name="ObjectShortName">GCLK</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/st" type="logic">
+      <obj_property name="ElementShortName">st</obj_property>
+      <obj_property name="ObjectShortName">st</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/clk_Tbit" type="logic">
+      <obj_property name="ElementShortName">clk_Tbit</obj_property>
+      <obj_property name="ObjectShortName">clk_Tbit</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/spi_master/cb_bit" type="array">
+      <obj_property name="ElementShortName">cb_bit[3:0]</obj_property>
+      <obj_property name="ObjectShortName">cb_bit[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/MISO" type="logic">
+      <obj_property name="ElementShortName">MISO</obj_property>
+      <obj_property name="ObjectShortName">MISO</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/MOSI" type="logic">
+      <obj_property name="ElementShortName">MOSI</obj_property>
+      <obj_property name="ObjectShortName">MOSI</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/SCLK" type="logic">
+      <obj_property name="ElementShortName">SCLK</obj_property>
+      <obj_property name="ObjectShortName">SCLK</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/SS" type="logic">
+      <obj_property name="ElementShortName">SS</obj_property>
+      <obj_property name="ObjectShortName">SS</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/MASTER_RX" type="array">
+      <obj_property name="ElementShortName">MASTER_RX[14:0]</obj_property>
+      <obj_property name="ObjectShortName">MASTER_RX[14:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/MASTER_TX" type="array">
+      <obj_property name="ElementShortName">MASTER_TX[14:0]</obj_property>
+      <obj_property name="ObjectShortName">MASTER_TX[14:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/SLAVE_RX" type="array">
+      <obj_property name="ElementShortName">SLAVE_RX[14:0]</obj_property>
+      <obj_property name="ObjectShortName">SLAVE_RX[14:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/SPI_testbench/SLAVE_TX" type="array">
+      <obj_property name="ElementShortName">SLAVE_TX[14:0]</obj_property>
+      <obj_property name="ObjectShortName">SLAVE_TX[14:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+</wave_config>
