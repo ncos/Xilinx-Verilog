@@ -27,10 +27,10 @@ module SPI#
     )
     (
     // External interfaces
-    output reg [127:0] str0,
-    output reg [127:0] str1,
-    output reg [127:0] str2,
-    output reg [127:0] str3,
+    output reg [127:0] str0 = "                ",
+    output reg [127:0] str1 = "                ",
+    output reg [127:0] str2 = "                ",
+    output reg [127:0] str3 = "                ",
     input wire GCLK,
     input wire RST,
     input wire [7:0] SW,
@@ -56,7 +56,7 @@ module SPI#
     
     wire clk_Tbit; // Clock for bit timing
     
-    SPI_MASTER spi_master
+    SPI_MASTER #(.m(m)) spi_master
         (
         .clk(GCLK),
         .ce(clk_Tbit),
@@ -67,12 +67,14 @@ module SPI#
         .LOAD(MASTER_SS),
         .TX_MD(MASTER_TX),
         .RX_SD(MASTER_RX),
+        .RST(RST),
         .LEFT(1'b1),
         .R(1'b1)
         );
 
-    SPI_SLAVE spi_slave 
+    SPI_SLAVE #(.m(m)) spi_slave 
         (
+        .GCLK(GCLK),
         .RST(RST),
         .SCLK(SLAVE_SCLK),
         .MISO(SLAVE_MISO),
@@ -90,12 +92,41 @@ module SPI#
         );
         
     // Display
-    always @(posedge GCLK) begin
-        str0 <= "SPI Interface";
-        str1 <= ".";
-        str2 <= ".";
-        str3 <= ".";
+    wire [127:0] str_m_tx;
+    wire [127:0] str_s_tx;
+    wire [127:0] str_m_rx;
+    wire [127:0] str_s_rx;
+
+    always @(posedge clk_Tbit) begin
+        if (SW[6] == 1'b1) begin
+            str0 <= "SPI Interface   ";
+            str1 <= SW[7] ? " M-R TX/SLAVE RX" : " SLAVE TX/M-R RX";
+            str2 <= SW[7] ? str_m_tx : str_s_tx;
+            str3 <= SW[7] ? str_s_rx : str_m_rx;
+        end
     end
     
+    D2STR_B #(.len(m)) oled_d2b_0
+        (
+        .str(str_m_tx),
+        .d(MASTER_TX)
+        );
+       
+    D2STR_B #(.len(m)) oled_d2b_1
+        (
+        .str(str_s_tx),
+        .d(SLAVE_TX)
+        );   
    
+    D2STR_B #(.len(m)) oled_d2b_2
+        (
+        .str(str_m_rx),
+        .d(MASTER_RX)
+        );   
+    
+    D2STR_B #(.len(m)) oled_d2b_3
+        (
+        .str(str_s_rx),
+        .d(SLAVE_RX)
+        );  
 endmodule

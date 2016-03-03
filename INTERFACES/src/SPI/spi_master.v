@@ -25,7 +25,8 @@ module SPI_MASTER#
     parameter integer m = 15 // Data packet size
     )
     (
-    input clk, 
+    input clk,
+    input wire RST,
     output reg EN_TX=0,
     input ce, 
     output wire LOAD,
@@ -49,18 +50,43 @@ module SPI_MASTER#
     
     assign SCLK = EN_TX & ce;
     
-    always @(negedge ce) begin
-        MQ <= st? TX_MD : LEFT ? MQ<<1 : MQ>>1;
-        EN_TX <= (cb_bit == (m-1))? 0 : st? 4'd1 : EN_TX;
-        cb_bit <= st? 0 : cb_bit + 4'd1 ;
-    end
-    
+    reg st_buf = 1'b0;
     always @(posedge ce) begin
-        MRX <= EN_TX ? MRX<<1 | MISO : 0;
+        if (!EN_TX & st) begin
+            st_buf <= 1'b1;
+        end
+        else begin
+            st_buf <= 1'b0;
+        end
     end
     
-    always @(posedge LOAD) begin
-        RX_SD <= MRX;
+    always @(negedge ce) begin
+        MQ <= st_buf? TX_MD : LEFT ? MQ<<1 : MQ>>1;
+        EN_TX <= (cb_bit == (m-1))? 0 : st_buf? 1'b1 : EN_TX;
+        cb_bit <= st_buf? 0 : cb_bit + 4'd1 ;
     end
+    
+    reg wready = 1'b0;
+    always @(posedge ce) begin
+        MRX <= (EN_TX == 1'b1) ? MRX<<1 | MISO : 0;
+        if (RST == 1'b1) begin
+            RX_SD <= 0;
+            wready <= 1'b0;
+        end
+        else if (EN_TX == 1'b0) begin
+            if (wready == 1'b0) begin
+                RX_SD <= MRX;
+            end
+            wready <= 1'b1;
+        end
+        else begin
+            wready <= 1'b0;
+            RX_SD <= RX_SD;
+        end
+    end
+    
+    //always @(posedge LOAD) begin
+        
+    //end
     
 endmodule

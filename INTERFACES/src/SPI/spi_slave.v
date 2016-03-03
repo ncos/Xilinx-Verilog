@@ -26,6 +26,7 @@ module SPI_SLAVE#
     )
     (
     input wire RST,
+    input wire GCLK,
     input wire SCLK,
     output wire MISO,
     input wire MOSI,
@@ -36,23 +37,30 @@ module SPI_SLAVE#
     
     reg [m-1:0] RXSHIFT = 0;
     reg [m-1:0] TXSHIFT = 0;
+    reg in_progress = 1'b0;
 
     assign MISO = TXSHIFT[m-1];
 
-    always @(negedge SS) begin
-        TXSHIFT <= DIN;
+    wire foo;
+    assign foo = SCLK | SS;    
+    always @(negedge foo) begin
+        if (in_progress == 1'b1) begin
+            TXSHIFT <= TXSHIFT<<1;
+        end
+        else begin
+            TXSHIFT <= DIN;
+        end
     end
-
-    always @(negedge SCLK) begin
-        TXSHIFT <= TXSHIFT<<1;
+    
+    always @(posedge GCLK) begin
+        in_progress <= (SS == 1'b1) ? 1'b0 : 1'b1;
     end
     
     always @(posedge SS) begin
-        DOUT <= RXSHIFT;
-        RXSHIFT <= 0;
+        DOUT <= (RST == 1'b1) ? 0 : RXSHIFT;
     end
     
     always @(posedge SCLK) begin
-        RXSHIFT <= RXSHIFT<<1 | MOSI;
+        RXSHIFT <= (SS == 1'b1) ? 0 : RXSHIFT<<1 | MOSI;
     end
 endmodule

@@ -42,8 +42,20 @@ module sandbox
     wire MOSI;
     wire SS;
     wire SCLK;
+    
+    reg SS_REG = 1'b0;
+    reg SCLK_REG = 1'b0;
+    assign JA[2] = SS_REG;
+    assign JA[3] = SCLK_REG;
+    
+    always @(posedge GCLK) begin
+        SS_REG <= SS;
+        SCLK_REG <= SCLK;
+    end
+    
+    //assign JA[3] = SCLK;
    
-    SPI spi
+    SPI #(.m(15), .Tbit(100)) spi
         (
         // External interfaces
         .str0(OLED_S0),
@@ -56,15 +68,23 @@ module sandbox
         // Transmission start switch
         .st(BTNC),
         // SPI Master bus
-        .MASTER_MISO(MISO),
-        .MASTER_MOSI(MOSI),
+        //.MASTER_MISO(MISO),
+        //.MASTER_MOSI(MOSI),
         .MASTER_SS(SS),
         .MASTER_SCLK(SCLK),
+        .MASTER_MISO(JB[0]),
+        .MASTER_MOSI(JA[1]),
+        //.MASTER_SS(JA[2]),
+        //.MASTER_SCLK(JA[3]),
         // SPI Slave bus
-        .SLAVE_MOSI(MOSI),
-        .SLAVE_MISO(MISO),
+        //.SLAVE_MISO(MISO),
+        //.SLAVE_MOSI(MOSI),
         .SLAVE_SS(SS),
-        .SLAVE_SCLK(SCLK)
+        .SLAVE_SCLK(SCLK),
+        .SLAVE_MOSI(JB[1]),
+        .SLAVE_MISO(JA[0])
+        //.SLAVE_SS(JB[2])
+        //.SLAVE_SCLK(JB[3])
         );
 
 endmodule

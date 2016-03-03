@@ -27,50 +27,59 @@ module AR_RXD(
     output ce_wr  // receive completed correctly
     );
 	 
-	 wire fall;
-	 wire rise;
-	 reg in          = 0;
-	 reg st_in       = 0;
-	 reg st_in_prev  = 0;
-	 reg time_done   = 0;
-	 reg err         = 0;
-	 reg wr_r        = 0;
-	 reg parity      = 1;
-	 reg [31:0] recv = 0;
-	 reg [63:0] counter   = 0;
-	 reg [5:0]  rcv_count = 0;
-	 reg [31:0] out       = 0;
-	 reg [63:0] in_time   = 0;
-
-	 assign ce_wr = wr_r;
-	 assign fall  = ((st_in == 0) & (st_in_prev == 1));
-	 assign rise  = ((st_in == 1) & (st_in_prev == 0));
-	 assign sr_adr = out [31 : 24];
-	 
-	 genvar i;
-	 generate for (i = 23; i >= 1; i = i - 1)
-	   begin
-	       assign sr_dat[i-1] = out [24-i];
-	   end  
-	 endgenerate
-	 
-	 //assign sr_dat = out [23 : 1];
-	 
-	 always @(posedge clk)
-	 begin
-		st_in_prev <= st_in;
-		st_in <= (in0 | in1) ? 1 : 0;
-		in    <= (rise) ? in1 : in;
-		counter    <= (fall) ? 0 : counter + 1;
-		err        <= (err == 1) ? 0 : (time_done & (counter > (in_time << 1))) ? 1 : 0;
-		wr_r       <= (err == 1) ? 0 : (rcv_count == 32) ? (parity == recv[0]) : wr_r;
-		parity     <= (err == 1) ? 1 : (rcv_count == 32) ? 1    : (fall) ? parity ^ recv[0] : parity;
-		recv       <= (err == 1) ? 0 : (rcv_count == 32) ? 0    : (fall) ? (recv << 1) | in : recv;
-		rcv_count  <= (err == 1) ? 0 : (rcv_count == 32) ? 0    : (fall) ? rcv_count+1 : rcv_count;
-		out        <= (err == 1) ? 0 : (rcv_count == 32) ? recv : out;
-		in_time    <= (err == 1) ? 0 : (rcv_count == 32) ? 0    : ((time_done == 0) & (st_in)) ? in_time + 1 : in_time;
-		time_done  <= (err == 1) ? 0 : (rcv_count == 32) ? 0    : ((time_done == 0) & (fall == 1)) ? 1 : time_done; 
-	 end
-
+        parameter Fclk = 50000000; 										// 50 MHz
+        parameter V100kb = 100000;                                         // 100 kb/s
+        parameter V50kb = 50000;                                             // 50 kb/s
+        parameter V12_5kb = 12500;                                         // 12.5 kb/s
+        parameter m100kb = Fclk/V100kb;                                     // количество тактов на один бит информации
+        parameter m50kb = Fclk/V50kb;
+        parameter m12_5kb = Fclk/V12_5kb;
+    
+        reg [31:0]data = 0;                                                    // полученные данные
+        reg [6:0] cb = 0;                                                     // счётчик бит
+        reg [10:0] cc = 0;                                                    // cсчётчик тактов
+        reg [1:0] cur_mode = 0;                                                // текущий режим работы
+        reg [1:0] prev_mode = 0;                                            // режим работы предыдущего бита
+        reg [1:0] new_bit = 0;                                                // приход нового бита1
+        reg [0:0] err = 0;
+        
+        genvar i;
+         generate for (i = 23; i >= 1; i = i - 1)
+           begin
+               assign sr_dat[i-1] = data[24-i];
+           end  
+        endgenerate
+        
+        assign sr_adr = data[31:24];
+        assign parity =^ data[31:1];                                        // чётность
+        assign ce_wr = (!parity == data[0]) && (cb == 32);            // если чётность верна, то мы правильно получили число
+        assign sig = (in1 | in0);
+        assign glitch = ((!sig) && ((cc != m12_5kb) || (cc != m12_5kb-1)) // случайный сбой
+                                      && ((cc != m50kb) || (cc != m50kb-1)) 
+                                      && ((cc != m100kb) || (cc != m100kb-1)));
+        
+    
+        always @(posedge clk) begin
+            if (!sig & !glitch) prev_mode = cur_mode;
+            if (!sig & !glitch) cur_mode = ((cc == m12_5kb) || (cc == m12_5kb-1)) ? 1 :
+                          ((cc == m50kb) || (cc == m50kb-1)) ? 2 :
+                          ((cc == m100kb) || (cc == m100kb-1)) ? 3 :
+                          0;
+            if ((!sig) && (cur_mode != prev_mode) && (cb != 32)) err <= 1;
+    
+            data <= ((!err) && (!sig) && (new_bit == 1)) ? ((data << 1) + 1) :
+                     ((!err) && (!sig) && (new_bit == 0)) ? (data << 1):
+                     ((!err) && (!sig)) ? data:
+                     (sig) ? data :
+                     0;
+            if ((!err) && (!sig) && (cb != 32) && ((new_bit == 1) ||(new_bit == 0))) 
+                cb <= cb + 1;
+            
+            new_bit <= (in1 && !glitch && !err) ? 1 : (in0 && !glitch && !err) ? 0 : 2;
+            
+            if (new_bit == 2) cc <= 0;
+            if (sig) cc <= cc + 1;
+            if (glitch) cc <= 0;
+        end
 
 endmodule

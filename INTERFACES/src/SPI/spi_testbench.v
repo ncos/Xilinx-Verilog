@@ -21,7 +21,7 @@
 
 
 module SPI_testbench();
-    parameter integer m = 15;
+    parameter integer m = 10;
     reg GCLK;
     reg st;
     reg LEFT;
@@ -40,7 +40,7 @@ module SPI_testbench();
     
     wire clk_Tbit; // Clock for bit timing
         
-    SPI_MASTER spi_master
+    SPI_MASTER #(.m(m)) spi_master
         (
         .clk(GCLK),
         .ce(clk_Tbit),
@@ -55,7 +55,7 @@ module SPI_testbench();
         .R(R)
         );
     
-    SPI_SLAVE spi_slave 
+    SPI_SLAVE #(.m(m)) spi_slave 
         (
         .RST(RST),
         .SCLK(SCLK),
@@ -71,6 +71,13 @@ module SPI_testbench();
         .GCLK(GCLK),
         .out(clk_Tbit),
         .T(64'd10)
+        );
+    
+    wire [127:0] w_str1;
+    D2STR_B #(.len(15)) oled_d2b_1
+        (
+        .str(w_str1),
+        .d(231)
         );
     
     always begin
