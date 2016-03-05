@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="10" Path="C:/Users/ncos/Desktop/Xilinx-Verilog/INTERFACES/INTERFACES.xpr">
+<Project Version="7" Minor="10" Path="C:/Users/Alex/Desktop/Xilinx-Verilog/INTERFACES/INTERFACES.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="8bcc8c80b8424b84bfdad303c7258bda"/>
@@ -137,6 +137,20 @@
         </FileInfo>
       </File>
       <File Path="$PPRDIR/src/d2str.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/src/OLED/Delay.v">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/src/OLED/SpiCtrl.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -331,48 +345,6 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="SpiCtrl" Type="BlockSrcs" RelSrcDir="$PSRCDIR/SpiCtrl">
-      <File Path="$PPRDIR/src/OLED/SpiCtrl.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/SpiCtrl/new/SpiCtrl_ooc.xdc">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="out_of_context"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="SpiCtrl"/>
-        <Option Name="TopRTLFile" Val="$PPRDIR/src/OLED/SpiCtrl.v"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
-    <FileSet Name="Delay" Type="BlockSrcs" RelSrcDir="$PSRCDIR/Delay">
-      <File Path="$PPRDIR/src/OLED/Delay.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/Delay/new/Delay_ooc.xdc">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="out_of_context"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="Delay"/>
-        <Option Name="TopRTLFile" Val="$PPRDIR/src/OLED/Delay.v"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
   </FileSets>
   <Simulators>
     <Simulator Name="XSim">
@@ -413,20 +385,6 @@
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
-    <Run Id="SpiCtrl_synth_1" Type="Ft3:Synth" SrcSet="SpiCtrl" Part="xc7z020clg484-1" ConstrsSet="SpiCtrl" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/SpiCtrl_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2015"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-    </Run>
-    <Run Id="Delay_synth_1" Type="Ft3:Synth" SrcSet="Delay" Part="xc7z020clg484-1" ConstrsSet="Delay" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/Delay_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2015"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-    </Run>
     <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="constrs_1" Description="Vivado Implementation Defaults" State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2015"/>
@@ -443,34 +401,6 @@
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
     <Run Id="charLib_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="charLib" Description="Vivado Implementation Defaults" SynthRun="charLib_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2015"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-    </Run>
-    <Run Id="SpiCtrl_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="SpiCtrl" Description="Vivado Implementation Defaults" SynthRun="SpiCtrl_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2015"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-    </Run>
-    <Run Id="Delay_impl_1" Type="Ft2:EntireDesign" Part="xc7z020clg484-1" ConstrsSet="Delay" Description="Vivado Implementation Defaults" SynthRun="Delay_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2015"/>
         <Step Id="init_design"/>
