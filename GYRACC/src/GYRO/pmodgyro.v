@@ -49,8 +49,8 @@
 // 										  Define Module
 // ==============================================================================
 module PmodGYRO (
-        input wire  [7:0] sw,
-		input wire  clk,
+		input wire clk,
+		input wire RST,
 		inout wire  [3:0] JA,
         
         output wire [15:0]  temp_data_out,
@@ -127,9 +127,9 @@ module PmodGYRO (
 						.send_data(send_data),
 						.recieved_data(recieved_data),
 						.clk(clk),
-						.rst(sw[0]),
+						.rst(RST),
 						.slave_select(slave_select),
-						.start(sw[1]),
+						.start(1'b1),
 						.temp_data(temp_data),
 						.x_axis_data(x_axis_data),
 						.y_axis_data(y_axis_data),
@@ -147,7 +147,7 @@ module PmodGYRO (
 						.recieved_data(recieved_data),
 						.miso(JA[2]),
 						.clk(clk),
-						.rst(sw[0]),
+						.rst(RST),
 						.end_transmission(end_transmission),
 						.mosi(JA[1]),
 						.sclk(JA[3])
@@ -157,8 +157,8 @@ module PmodGYRO (
             data_formatter DF0
                 (
                 .GCLK(clk),
-                .RST(sw[0]),
-                .dec(sw[4]),
+                .RST(RST),
+                .dec(1'b1),
                 .temp_data_in(temp_data),
                 .x_axis_in(x_axis_data[15:0]),
                 .y_axis_in(y_axis_data[15:0]),

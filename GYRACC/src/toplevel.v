@@ -77,14 +77,14 @@ module toplevel
     inout wire JA9;
     inout wire JA10;    
     
-    input wire JB1;
-    input wire JB2;
-    input wire JB3;
-    input wire JB4;
-    input wire JB7;
-    input wire JB8;
-    input wire JB9;
-    input wire JB10;
+    inout wire JB1;
+    inout wire JB2;
+    inout wire JB3;
+    inout wire JB4;
+    inout wire JB7;
+    inout wire JB8;
+    inout wire JB9;
+    inout wire JB10;
 
     input wire BTNC;
     input wire BTND;
@@ -149,8 +149,8 @@ module toplevel
 
     PmodGYRO GYRO_0
         (
-        .sw({SW7, SW6, SW5, SW4, SW3, SW2, SW1, SW0}),
         .clk(GCLK),
+        .RST(BTND),
         .JA({JA4, JA3, JA2, JA1}),      
         .temp_data_out(temp_data),
         .x_axis_out(x_axis_data),
@@ -166,40 +166,83 @@ module toplevel
     wire [127:0] w_str_ax;
 
 
-    D2STR_D#(.len(4)) d2str0
+    D2STR_D#(.len(4)) d2str_gyro_x
         (
             .GCLK(GCLK),
             .str(w_str_x),
             .d(x_axis_data)
         );
-    D2STR_D#(.len(4)) d2str1
+    D2STR_D#(.len(4)) d2str_gyro_y
         (
             .GCLK(GCLK),
             .str(w_str_y),
             .d(y_axis_data)
         );  
-    D2STR_D#(.len(4)) d2str2
+    D2STR_D#(.len(4)) d2str_gyro_z
         (
             .GCLK(GCLK),
             .str(w_str_z),
             .d(z_axis_data)
         );  
-    D2STR_D#(.len(4)) d2str3
+    D2STR_D#(.len(4)) d2str_gyro_t
         (
             .GCLK(GCLK),
             .str(w_str_t),
             .d(temp_data)
         );
 
-    D2STR_D#(.len(4)) d2str4
+    D2STR_D#(.len(4)) d2str_gyro_ax
         (
             .GCLK(GCLK),
             .str(w_str_ax),
             .d(ang_x)
         );
 
+    // =============================================
+    // Pmod ACL
+    // =============================================
+    wire [15:0] acl_x;
+    wire [15:0] acl_y;
+    wire [15:0] acl_z;
+    PmodACL ACL_0
+        (
+        .CLK(GCLK),
+		.RST(BTND),
+		.SDI(JB3),
+		.SDO(JB2),
+		.SCLK(JB4),
+		.SS(JB1),
+		.x_out(acl_x),
+		.y_out(acl_y),
+		.z_out(acl_z)
+    );
 
-    
+    wire [127:0] acl_x_str;
+    wire [127:0] acl_y_str;
+    wire [127:0] acl_z_str;
+    D2STR_D#(.len(4)) d2str_acl_x
+        (
+            .GCLK(GCLK),
+            .str(acl_x_str),
+            .d(acl_x)
+        );
+    D2STR_D#(.len(4)) d2str_acl_y
+        (
+            .GCLK(GCLK),
+            .str(acl_y_str),
+            .d(acl_y)
+        );  
+    D2STR_D#(.len(4)) d2str_acl_z
+        (
+            .GCLK(GCLK),
+            .str(acl_z_str),
+            .d(acl_z)
+        );  
+
+
+    // =============================================
+    // OLED infrastructure
+    // =============================================    
     wire oled_refresh_clk;
     CLK_DIV oled_refresh_clk 
         (
@@ -215,9 +258,9 @@ module toplevel
     end
     
     always @(posedge oled_refresh_clk) begin
-        str0 <= w_str_x;
-        str1 <= w_str_y;
-        str2 <= w_str_z;
+        str0 <= SW7 ? w_str_x : acl_x_str;
+        str1 <= SW7 ? w_str_y : acl_y_str;
+        str2 <= SW7 ? w_str_z : acl_z_str;
         str3 <= w_str_t;
     end
 endmodule

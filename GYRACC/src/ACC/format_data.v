@@ -39,19 +39,18 @@ module Format_Data(
    input           CLK;
    input           DCLK;
    input           RST;
-   input [8:0]     DIN;
-   output [11:0]   BCDOUT;
+   input [9:0]     DIN;
+   output reg [15:0] BCDOUT;
    
 // ====================================================================================
 // 								Parameters, Register, and Wires
 // ====================================================================================
    
    // Scaled up divisor and scaling factor for "g" calculation to get hundredths place accuracy
-   parameter [7:0] DIVISOR = 8'b10100011;
-   parameter [6:0] SCALING = 7'b1000000;
+   parameter [7:0] SCALING = 8'd201;
    
    // Signals for scaled division to determine "g" number
-   wire [15:0]     tmpDIVIDEND;
+   wire [16:0]     tmpDIVIDEND;
    wire [14:0]     quo;
    wire [7:0]      rmd;
    wire            rfd;
@@ -65,23 +64,10 @@ module Format_Data(
 //  ===================================================================================
    
    // Calculate scaled up dividend
-   assign tmpDIVIDEND = DIN * SCALING;
+   assign tmpDIVIDEND = DIN[8:0] * SCALING;
+   assign inputBCD = {1'b0,tmpDIVIDEND[16:9]};
    
-   // Assign input data to binary to BCD converter
-   assign inputBCD = quo[8:0];
-   
-   //------------------------------
-   //		 	LSB Division
-   //------------------------------
-   Div Division(
-				.clk(CLK),
-				.dividend(tmpDIVIDEND[14:0]),
-				.divisor(DIVISOR),
-				.rfd(rfd),
-				.quotient(quo),
-				.fractional(rmd)
-	);
-   
+
    //------------------------------
    //		 	Binary to BCD
    //------------------------------
@@ -89,11 +75,19 @@ module Format_Data(
 				.CLK(CLK),
 				.RST(RST),
 				.START(DCLK),
-				.BIN(inputBCD),
+				.BIN(DIN[8:0]),
 				.BCDOUT(outputBCD)
 	);
    
    // Assign output display data
-   assign BCDOUT[11:0] = {outputBCD[11:8], {outputBCD[7:4], outputBCD[3:0]}};
+   //bcdData[15:12] = (DIN[9] == 1'b0) ? (4'hA) : (4'hF);
+   always @(posedge CLK) begin
+        if (DIN[9]) begin
+            BCDOUT <= {4'hF, outputBCD[11:0]};
+        end
+        else begin
+            BCDOUT <= {4'hA, outputBCD[11:0]};
+        end
+   end
    
 endmodule

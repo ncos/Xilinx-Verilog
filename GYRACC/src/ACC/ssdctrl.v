@@ -32,7 +32,8 @@ module ssdCtrl(
 		DIN,
 		AN,
 		SEG,
-		DOT
+		DOT,
+		bcdData
 );
 
 // ====================================================================================
@@ -46,7 +47,7 @@ module ssdCtrl(
    output [6:0]     SEG;
    reg [6:0]        SEG;
    output           DOT;
-   
+   output wire [15:0] bcdData;
    
 // ====================================================================================
 // 								Parameters, Register, and Wires
@@ -61,7 +62,7 @@ module ssdCtrl(
    reg [1:0]        CNT;
    
    // Binary Data to BCD "g" value format x.xx
-   wire [15:0]      bcdData;
+   //wire [15:0]      bcdData;
    
    // Output Data Mux
    reg [3:0]        muxData;
@@ -70,8 +71,7 @@ module ssdCtrl(
 // 										 Implementation
 // ====================================================================================
    
-		// Assign minus sign if applicable
-		assign bcdData[15:12] = (DIN[9] == 1'b0) ? (4'hA) : (4'hF);
+		//assign bcdData[15:12] = (DIN[9] == 1'b0) ? (4'hA) : (4'hF);
 		
 		// Assign DOT when count is 2
 		assign DOT = (CNT == 2'b11) ? 1'b0 : 1'b1;
@@ -83,8 +83,8 @@ module ssdCtrl(
 				.CLK(CLK),
 				.DCLK(DCLK),
 				.RST(RST),
-				.DIN(DIN[8:0]),
-				.BCDOUT(bcdData[11:0])
+				.DIN(DIN),
+				.BCDOUT(bcdData)
 		);
 		
 		//-----------------------------------------------
