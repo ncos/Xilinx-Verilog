@@ -33,7 +33,7 @@ module sandbox#
     output reg [7:0] LD,
     input wire [7:0] SW,
     inout wire [7:0] JA,
-    inout wire [7:0] JB,
+    output reg [7:0] JB,
     input wire BTNC,
     input wire BTND,
     input wire BTNL,
@@ -50,12 +50,18 @@ module sandbox#
     wire rx_ready1;
     wire tx_ready2;
     wire rx_ready2;
+    
+    wire CAN1;
+    wire CAN2;
+    
+    assign CAN1 = CAN2;
+    assign CAN1 = JA[0];
 
     can_controller CC1
     (
         .GCLK(GCLK),
         .RES(RES),
-        .CAN(JA[0]),
+        .CAN(CAN1),
         .DIN(DIN1),
         .DOUT(DOUT1),
         .tx_start(BTNC),
@@ -81,6 +87,12 @@ module sandbox#
         .out(clk_Tbit),
         .T(Tbit)
     );
+    
+    always @(posedge GCLK) begin
+       JB[0] <= CAN2;
+    end
+    
+    
     always @(posedge clk_Tbit) begin
             OLED_S0 <= "CAN Interface   ";
             OLED_S1 <= {DOUT1,20'd0}; 
