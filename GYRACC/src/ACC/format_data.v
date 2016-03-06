@@ -39,21 +39,14 @@ module Format_Data(
    input           CLK;
    input           DCLK;
    input           RST;
-   input [9:0]     DIN;
+   input wire [9:0] DIN;
    output reg [15:0] BCDOUT;
    
 // ====================================================================================
 // 								Parameters, Register, and Wires
 // ====================================================================================
    
-   // Scaled up divisor and scaling factor for "g" calculation to get hundredths place accuracy
-   parameter [7:0] SCALING = 8'd201;
-   
    // Signals for scaled division to determine "g" number
-   wire [16:0]     tmpDIVIDEND;
-   wire [14:0]     quo;
-   wire [7:0]      rmd;
-   wire            rfd;
    
    // Input/Output data, binary to BCD converter
    wire [8:0]      inputBCD;
@@ -63,10 +56,17 @@ module Format_Data(
 // 							  				Implementation
 //  ===================================================================================
    
-   // Calculate scaled up dividend
-   assign tmpDIVIDEND = DIN[8:0] * SCALING;
-   assign inputBCD = {1'b0,tmpDIVIDEND[16:9]};
+   	
+   	reg [16:0] tmpDIVIDEND; // Scaling to 'g' values
+   	reg [9:0] unsigned_data; //two's complement of data
+   	always @(posedge CLK) begin
+        unsigned_data <= (DIN[9] == 1'b1) ? ((~(DIN)) + 1'b1) : DIN;
+        tmpDIVIDEND <= unsigned_data[8:0] * 8'd201;
+    end
    
+   // Calculate scaled up dividend
+   assign inputBCD = {1'b0, tmpDIVIDEND[16:9]};
+   //assign inputBCD = unsigned_data[8:0];
 
    //------------------------------
    //		 	Binary to BCD
@@ -75,7 +75,7 @@ module Format_Data(
 				.CLK(CLK),
 				.RST(RST),
 				.START(DCLK),
-				.BIN(DIN[8:0]),
+				.BIN(unsigned_data),
 				.BCDOUT(outputBCD)
 	);
    
