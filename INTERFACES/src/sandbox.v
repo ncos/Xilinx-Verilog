@@ -51,20 +51,22 @@ module sandbox#
     wire tx_ready2;
     wire rx_ready2;
     
-    wire CAN1;
-    wire CAN2;
-    
-    assign CAN1 = CAN2;
-    assign CAN1 = JA[0];
+
+    reg start = 1'b0;
+    reg RES = 1'b0;
+    always @(posedge GCLK) begin
+        start <= BTNC;
+        RES <= BTND;
+    end
 
     can_controller CC1
     (
         .GCLK(GCLK),
         .RES(RES),
-        .CAN(CAN1),
+        .CAN(JA[0]),
         .DIN(DIN1),
         .DOUT(DOUT1),
-        .tx_start(BTNC),
+        .tx_start(start),
         .tx_ready(tx_ready1),
         .rx_ready(rx_ready1)
     );
@@ -76,7 +78,7 @@ module sandbox#
         .CAN(JA[1]),
         .DIN(DIN2),
         .DOUT(DOUT2),
-        .tx_start(BTNC),
+        .tx_start(start),
         .tx_ready(tx_ready2),
         .rx_ready(rx_ready2)
     );    
@@ -88,20 +90,16 @@ module sandbox#
         .T(Tbit)
     );
     
-    always @(posedge GCLK) begin
-       JB[0] <= CAN2;
-    end
-    
     
     always @(posedge clk_Tbit) begin
-            OLED_S0 <= "CAN Interface   ";
-            OLED_S1 <= {DOUT1,20'd0}; 
-            OLED_S2 <= {DOUT2,20'd0};
-            OLED_S3 <= "CAN Interface   ";
-            LD[0] <= tx_ready1;
-            LD[1] <= rx_ready1;
-            LD[2] <= tx_ready2;
-            LD[3] <= rx_ready2;
+        OLED_S0 <= "CAN Interface   ";
+        OLED_S1 <= {20'd0, DOUT1}; 
+        OLED_S2 <= {20'd0, DOUT2};
+        OLED_S3 <= "CAN Interface   ";
+        LD[0] <= tx_ready1;
+        LD[1] <= rx_ready1;
+        LD[2] <= tx_ready2;
+        LD[3] <= rx_ready2;
     end    
     
 endmodule

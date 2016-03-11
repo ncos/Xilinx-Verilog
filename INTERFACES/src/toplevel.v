@@ -114,11 +114,11 @@ module toplevel
 
 
 
-wire [127:0] s1;
-wire [127:0] s2;
-wire [127:0] s3;
-wire [127:0] s4;
-ZedboardOLED OLED
+    wire [127:0] s1;
+    wire [127:0] s2;
+    wire [127:0] s3;
+    wire [127:0] s4;
+    ZedboardOLED OLED
         (
         .s1(s1),
         .s2(s2),
@@ -133,7 +133,7 @@ ZedboardOLED OLED
         .CLK(GCLK)
         );
 
-sandbox SANDBOX
+    sandbox SANDBOX
         (
         .OLED_S0(s1),
         .OLED_S1(s2),

@@ -32,8 +32,8 @@ module can_qsampler
     output reg sync     // Timeslot start flag 
     );
     
-    parameter QUANTA = 20;  // Level hold time
-    parameter SP = 15;      // Sample point
+    parameter QUANTA = 39;  // Level hold time
+    parameter SP = 26;      // Sample point
     
     reg din_latch = 1'b0;    // Latch din at timeslot start   
     reg [63:0] qcnt = 64'd0; // Timeslot counter
@@ -78,12 +78,14 @@ module can_qsampler
             cntmn_ready <= 1'b0;
         end 
         // Resync circuit
+        /*
         else if ((qcnt > SP) & (can_sample != dout)) begin
             qcnt <= 64'd0;
             sync <= 1'b1; // Hold for 1 tact
             cntmn <= 1'b0;
             cntmn_ready <= 1'b0;
-        end        
+        end
+        */    
         // Counter
         else begin
             qcnt <= qcnt + 64'd1;
@@ -95,7 +97,7 @@ module can_qsampler
     assign CAN = (din_latch == 1'b0) ? 1'b0 : 1'bZ;
     
     always @(negedge GCLK) begin
-        if (qcnt == 64'd0) begin
+        if (qcnt < SP/3) begin
             din_latch <= din; // CAN Write
         end
     end

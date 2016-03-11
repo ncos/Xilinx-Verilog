@@ -11,11 +11,11 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="7557326400fs"></ZoomStartTime>
-      <ZoomEndTime time="63057326401fs"></ZoomEndTime>
-      <Cursor1Time time="107639640000fs"></Cursor1Time>
+      <ZoomStartTime time="44920000000fs"></ZoomStartTime>
+      <ZoomEndTime time="45979000001fs"></ZoomEndTime>
+      <Cursor1Time time="45360000000fs"></Cursor1Time>
    </zoom_setting>
-   <WVObjectSize size="28" />
+   <WVObjectSize size="27" />
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/GCLK" type="logic">
       <obj_property name="ElementShortName">GCLK</obj_property>
       <obj_property name="ObjectShortName">GCLK</obj_property>
@@ -57,6 +57,7 @@
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/bit_cnt" type="array">
       <obj_property name="ElementShortName">bit_cnt[63:0]</obj_property>
       <obj_property name="ObjectShortName">bit_cnt[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/cntmn" type="logic">
       <obj_property name="ElementShortName">cntmn</obj_property>
@@ -95,18 +96,6 @@
       <obj_property name="ObjectShortName">DOUT2[107:0]</obj_property>
       <obj_property name="Radix">ASCIIRADIX</obj_property>
    </wvobject>
-   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_start2" type="logic">
-      <obj_property name="ElementShortName">tx_start2</obj_property>
-      <obj_property name="ObjectShortName">tx_start2</obj_property>
-   </wvobject>
-   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_ready2" type="logic">
-      <obj_property name="ElementShortName">tx_ready2</obj_property>
-      <obj_property name="ObjectShortName">tx_ready2</obj_property>
-   </wvobject>
-   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/rx_ready2" type="logic">
-      <obj_property name="ElementShortName">rx_ready2</obj_property>
-      <obj_property name="ObjectShortName">rx_ready2</obj_property>
-   </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/tx" type="logic">
       <obj_property name="ElementShortName">tx</obj_property>
       <obj_property name="ObjectShortName">tx</obj_property>
@@ -114,6 +103,8 @@
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/rx" type="logic">
       <obj_property name="ElementShortName">rx</obj_property>
       <obj_property name="ObjectShortName">rx</obj_property>
+      <obj_property name="CustomSignalColor">#808000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/tsync" type="logic">
       <obj_property name="ElementShortName">tsync</obj_property>
@@ -122,6 +113,7 @@
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/bit_cnt" type="array">
       <obj_property name="ElementShortName">bit_cnt[63:0]</obj_property>
       <obj_property name="ObjectShortName">bit_cnt[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/cntmn" type="logic">
       <obj_property name="ElementShortName">cntmn</obj_property>
@@ -143,5 +135,14 @@
       <obj_property name="Radix">ASCIIRADIX</obj_property>
       <obj_property name="CustomSignalColor">#808000</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/CQS/qcnt" type="array">
+      <obj_property name="ElementShortName">qcnt[63:0]</obj_property>
+      <obj_property name="ObjectShortName">qcnt[63:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/timeslot_start" type="logic">
+      <obj_property name="ElementShortName">timeslot_start</obj_property>
+      <obj_property name="ObjectShortName">timeslot_start</obj_property>
    </wvobject>
 </wave_config>
