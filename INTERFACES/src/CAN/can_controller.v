@@ -20,13 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module can_controller
+module can_controller#
+    (
+    parameter integer WIDTH = 128,  // Packet width
+    parameter integer QUANTA = 39,  // Level hold time
+    parameter integer SP = 30       // Sample point
+    )
     (
     input wire GCLK,
     input wire RES,
     inout wire CAN,
-    (* mark_debug = "true" *) input wire [107:0] DIN,
-    (* mark_debug = "true" *) output reg [107:0] DOUT,
+    (* mark_debug = "true" *) input wire [WIDTH-1:0] DIN,
+    (* mark_debug = "true" *) output reg [WIDTH-1:0] DOUT,
     (* mark_debug = "true" *) input wire tx_start,
     (* mark_debug = "true" *) output reg tx_ready = 1'b0,
     (* mark_debug = "true" *) output reg rx_ready = 1'b0
@@ -38,7 +43,7 @@ module can_controller
     (* mark_debug = "true" *) wire cntmn_ready;
     (* mark_debug = "true" *) wire tsync;
     
-    (* mark_debug = "true" *) reg [107:0] DIN_BUF = 108'd0;
+    (* mark_debug = "true" *) reg [WIDTH-1:0] DIN_BUF = 0;
     
     (* mark_debug = "true" *) reg timeslot_start  = 1'b0;         // 1 at the start of every frame
     (* mark_debug = "true" *) reg timeslot_finish = 1'b0;         // 1 at the end of every frame
@@ -51,7 +56,7 @@ module can_controller
     (* mark_debug = "true" *) reg timeslot_start_block = 1'b0;
     always @(posedge GCLK) begin
         if (RES) begin
-            DIN_BUF <= 108'd0;
+            DIN_BUF <= 0;
             tx_ready <= 1'b0;
             tx_requested <= 1'b0;
         end 
@@ -106,16 +111,14 @@ module can_controller
     end
     
     // Frame timing circuit
-    (* mark_debug = "true" *) reg [63:0] bit_cnt = 64'd0;
-    (* mark_debug = "true" *) reg [107:0] rx_buf = 108'd0;
-    always @(posedge tsync) begin
+    always @(posedge GCLK) begin
         // Mark timeslot start and timeslot finish
         // (Currently, based on current frame bit number)
-        if (bit_cnt == 64'd106) begin
+        if (bit_cnt == WIDTH-1) begin
             timeslot_finish <= 1'b1;
             timeslot_start <= 1'b0;
         end 
-        else if (bit_cnt == 64'd107) begin
+        else if (bit_cnt == WIDTH) begin
             timeslot_finish <= 1'b0;
             timeslot_start <= 1'b1;
         end
@@ -123,46 +126,71 @@ module can_controller
             timeslot_start <= 1'b0;
             timeslot_finish <= 1'b0;
         end
+    end
 
-        // Count current bit in frame
+    // Count current bit in frame
+    (* mark_debug = "true" *) reg [63:0] bit_cnt = 64'd0;
+    always @(negedge GCLK) begin
         if (RES) begin
             bit_cnt <= 64'b0;
         end
-        else if (timeslot_finish) begin
+        else if (timeslot_start) begin
             bit_cnt <= 64'd0;
         end 
-        else begin
+        else if (tsync) begin
             bit_cnt <= bit_cnt + 64'd1;
         end
-        
-        // Receive data
+        else begin
+            bit_cnt <= bit_cnt;
+        end
+    end
+       
+    // Data receive circuit
+    (* mark_debug = "true" *) reg [WIDTH-1:0] rx_buf = 0;
+    always @(negedge GCLK) begin
         if (RES) begin
             rx_buf <= 0;
         end
+        else if (tsync) begin
+            rx_buf <= {rx, rx_buf[WIDTH-1:1]};
+        end
         else begin
-            rx_buf <= {rx, rx_buf[107:1]}; // Receive data
+            rx_buf <= rx_buf;
         end
     end
-    
-    assign tx = (have_arb & tx_requested) ? DIN_BUF[bit_cnt] : 1'b1;
 
-    // Data receive circuit
+    // Data output circuit
+    (* mark_debug = "true" *) reg toretrieve = 1'b0;
     always @(posedge GCLK) begin
         if (RES) begin
             rx_ready <= 1'b0;
             DOUT <= 0;
+            toretrieve <= 1'b0;
         end 
-        else if (timeslot_finish & cntmn_ready & cntmn) begin
+        else if (timeslot_finish & cntmn_ready & !have_arb) begin
+            toretrieve <= 1'b1;
+            DOUT <= DOUT;
+            rx_ready <= rx_ready;
+        end
+        else if (toretrieve & timeslot_start) begin
+            toretrieve <= 1'b0;
             rx_ready <= 1'b1;
             DOUT <= rx_buf;
         end
         else begin
             rx_ready <= rx_ready;
             DOUT <= DOUT;
+            toretrieve <= toretrieve;
         end
     end
+    
+    assign tx = (have_arb & tx_requested) ? DIN_BUF[bit_cnt] : 1'b1;
  
-    can_qsampler CQS
+    can_qsampler#
+    (
+        .QUANTA(QUANTA),
+        .SP(SP)
+    ) CQS
     (
         .GCLK(GCLK),
         .RES(RES),  
@@ -174,5 +202,4 @@ module can_controller
         .sync(tsync) 
     );
         
-    
 endmodule

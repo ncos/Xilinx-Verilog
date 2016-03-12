@@ -11,24 +11,43 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="44920000000fs"></ZoomStartTime>
-      <ZoomEndTime time="45979000001fs"></ZoomEndTime>
-      <Cursor1Time time="45360000000fs"></Cursor1Time>
+      <ZoomStartTime time="72932875600fs"></ZoomStartTime>
+      <ZoomEndTime time="75102875601fs"></ZoomEndTime>
+      <Cursor1Time time="146120000000fs"></Cursor1Time>
    </zoom_setting>
-   <WVObjectSize size="27" />
+   <WVObjectSize size="29" />
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/GCLK" type="logic">
       <obj_property name="ElementShortName">GCLK</obj_property>
       <obj_property name="ObjectShortName">GCLK</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DIN1" type="array">
-      <obj_property name="ElementShortName">DIN1[107:0]</obj_property>
-      <obj_property name="ObjectShortName">DIN1[107:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="ElementShortName">DIN1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN1[31:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DOUT1" type="array">
-      <obj_property name="ElementShortName">DOUT1[107:0]</obj_property>
-      <obj_property name="ObjectShortName">DOUT1[107:0]</obj_property>
+      <obj_property name="ElementShortName">DOUT1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT1[31:0]</obj_property>
       <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/rx_buf" type="array">
+      <obj_property name="ElementShortName">rx_buf[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rx_buf[31:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/timeslot_start" type="logic">
+      <obj_property name="ElementShortName">timeslot_start</obj_property>
+      <obj_property name="ObjectShortName">timeslot_start</obj_property>
+      <obj_property name="CustomSignalColor">#00FF7F</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC1/timeslot_finish" type="logic">
+      <obj_property name="ElementShortName">timeslot_finish</obj_property>
+      <obj_property name="ObjectShortName">timeslot_finish</obj_property>
+      <obj_property name="CustomSignalColor">#00FF7F</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/tx_start1" type="logic">
       <obj_property name="ElementShortName">tx_start1</obj_property>
@@ -87,13 +106,13 @@
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DIN2" type="array">
-      <obj_property name="ElementShortName">DIN2[107:0]</obj_property>
-      <obj_property name="ObjectShortName">DIN2[107:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
+      <obj_property name="ElementShortName">DIN2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DIN2[31:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/DOUT2" type="array">
-      <obj_property name="ElementShortName">DOUT2[107:0]</obj_property>
-      <obj_property name="ObjectShortName">DOUT2[107:0]</obj_property>
+      <obj_property name="ElementShortName">DOUT2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT2[31:0]</obj_property>
       <obj_property name="Radix">ASCIIRADIX</obj_property>
    </wvobject>
    <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/tx" type="logic">
@@ -140,9 +159,5 @@
       <obj_property name="ElementShortName">qcnt[63:0]</obj_property>
       <obj_property name="ObjectShortName">qcnt[63:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject db_ref_id="1" fp_name="/can_controller_testbench/CC2/timeslot_start" type="logic">
-      <obj_property name="ElementShortName">timeslot_start</obj_property>
-      <obj_property name="ObjectShortName">timeslot_start</obj_property>
    </wvobject>
 </wave_config>

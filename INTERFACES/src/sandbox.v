@@ -20,10 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module sandbox#
-    (
-    parameter integer Tbit = 100 // Clocks
-    )
+module sandbox
     (
     output reg [127:0] OLED_S0,
     output reg [127:0] OLED_S1,
@@ -40,11 +37,15 @@ module sandbox#
     input wire BTNR,
     input wire BTNU
     );
+    
+    parameter integer WIDTH = 128;  // Packet width
+    parameter integer QUANTA = 39;  // Level hold time
+    parameter integer SP = 30;      // Sample point
 
-    reg [107:0] DIN1 = "HI";
-    reg [107:0] DIN2 = "LOL";
-    wire [107:0] DOUT1;
-    wire [107:0] DOUT2;
+    reg [WIDTH-1:0] DIN1 = "DIN1 -> DOUT2";
+    reg [WIDTH-1:0] DIN2 = "DIN2 -> DOUT1";
+    wire [WIDTH-1:0] DOUT1;
+    wire [WIDTH-1:0] DOUT2;
 
     wire tx_ready1;
     wire rx_ready1;
@@ -59,7 +60,12 @@ module sandbox#
         RES <= BTND;
     end
 
-    can_controller CC1
+    can_controller#
+    (
+        .WIDTH(WIDTH),
+        .QUANTA(QUANTA),
+        .SP(SP)
+    ) CC1
     (
         .GCLK(GCLK),
         .RES(RES),
@@ -71,7 +77,12 @@ module sandbox#
         .rx_ready(rx_ready1)
     );
 
-    can_controller CC2
+    can_controller#
+    (
+        .WIDTH(WIDTH),
+        .QUANTA(QUANTA),
+        .SP(SP)
+    ) CC2
     (
         .GCLK(GCLK),
         .RES(RES),
@@ -87,14 +98,13 @@ module sandbox#
     (
         .GCLK(GCLK),
         .out(clk_Tbit),
-        .T(Tbit)
+        .T(100)
     );
-    
     
     always @(posedge clk_Tbit) begin
         OLED_S0 <= "CAN Interface   ";
-        OLED_S1 <= {20'd0, DOUT1}; 
-        OLED_S2 <= {20'd0, DOUT2};
+        OLED_S1 <= {DOUT1}; 
+        OLED_S2 <= {DOUT2};
         OLED_S3 <= "CAN Interface   ";
         LD[0] <= tx_ready1;
         LD[1] <= rx_ready1;

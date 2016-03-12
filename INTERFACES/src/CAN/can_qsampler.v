@@ -20,7 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module can_qsampler
+module can_qsampler#
+    (
+    parameter integer QUANTA = 39, // Level hold time
+    parameter integer SP = 30     // Sample point
+    )
     (
     input wire GCLK,    // Main clock
     input wire RES,     // Reset module
@@ -32,14 +36,11 @@ module can_qsampler
     output reg sync     // Timeslot start flag 
     );
     
-    parameter QUANTA = 39;  // Level hold time
-    parameter SP = 26;      // Sample point
-    
-    reg din_latch = 1'b0;    // Latch din at timeslot start   
-    reg [63:0] qcnt = 64'd0; // Timeslot counter
+    (* mark_debug = "true" *) reg din_latch = 1'b0;    // Latch din at timeslot start   
+    (* mark_debug = "true" *) reg [63:0] qcnt = 64'd0; // Timeslot counter
     
     // CAN Read with resync
-    reg can_sample;
+    (* mark_debug = "true" *) reg can_sample;
     always @(posedge GCLK) begin
         can_sample <= CAN;
         
@@ -94,12 +95,12 @@ module can_qsampler
     end
     
     // CAN Write
-    assign CAN = (din_latch == 1'b0) ? 1'b0 : 1'bZ;
+    assign CAN = (din_latch) ? 1'bZ : 1'b0;
     
     always @(negedge GCLK) begin
-        if (qcnt < SP/3) begin
-            din_latch <= din; // CAN Write
-        end
+        //if (qcnt < SP/3) begin
+        din_latch <= din; // CAN Write
+        //end
     end
     
     

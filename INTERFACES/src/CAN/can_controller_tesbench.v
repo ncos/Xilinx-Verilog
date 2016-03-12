@@ -21,16 +21,20 @@
 
 
 module can_controller_testbench();
+    parameter integer WIDTH = 32;   // Packet width
+    parameter integer QUANTA = 19;  // Level hold time
+    parameter integer SP = 14;      // Sample point
+
     reg GCLK;
     reg RES;
     wire CAN;
-    reg [107:0] DIN1;
-    wire [107:0] DOUT1;
+    reg [WIDTH-1:0] DIN1;
+    wire [WIDTH-1:0] DOUT1;
     reg tx_start1;
     wire tx_ready1;
     wire rx_ready1;
-    reg [107:0] DIN2;
-    wire [107:0] DOUT2;
+    reg [WIDTH-1:0] DIN2;
+    wire [WIDTH-1:0] DOUT2;
     reg tx_start2;
     wire tx_ready2;
     wire rx_ready2;
@@ -41,8 +45,7 @@ module can_controller_testbench();
         #10 GCLK = ~GCLK;
       
     
-    initial
- begin
+    initial begin
         GCLK = 1'b0;
         RES = 1'b0;
         #20
@@ -58,7 +61,12 @@ module can_controller_testbench();
         $finish;
     end
 
-    can_controller CC1
+    can_controller#
+    (
+        .WIDTH(WIDTH),
+        .QUANTA(QUANTA),
+        .SP(SP)
+    ) CC1
     (
         .GCLK(GCLK),
         .RES(RES),
@@ -70,7 +78,12 @@ module can_controller_testbench();
         .rx_ready(rx_ready1)
     );
     
-    can_controller CC2
+    can_controller#
+    (
+        .WIDTH(WIDTH),
+        .QUANTA(QUANTA),
+        .SP(SP)
+    ) CC2
     (
         .GCLK(GCLK),
         .RES(RES),
