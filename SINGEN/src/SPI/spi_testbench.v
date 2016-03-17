@@ -25,7 +25,6 @@ module SPI_testbench();
     reg GCLK;
     reg st;
     reg LEFT;
-    reg R;
     reg RST;
     wire MISO;
     wire MOSI;
@@ -51,8 +50,7 @@ module SPI_testbench();
         .LOAD(SS),
         .TX_MD(MASTER_TX),
         .RX_SD(MASTER_RX),
-        .LEFT(LEFT),
-        .R(R)
+        .LEFT(LEFT)
         );
     
     SPI_SLAVE #(.m(m)) spi_slave 
@@ -70,15 +68,9 @@ module SPI_testbench();
         (
         .GCLK(GCLK),
         .out(clk_Tbit),
-        .T(64'd10)
+        .T(64'd2)
         );
     
-    wire [127:0] w_str1;
-    D2STR_B #(.len(15)) oled_d2b_1
-        (
-        .str(w_str1),
-        .d(231)
-        );
     
     always begin
         GCLK = 1'b0;
@@ -91,7 +83,6 @@ module SPI_testbench();
         GCLK = 1'b0;
         st = 1'b0;
         LEFT = 1'b1;
-        R = 1'b0;
         RST = 1'b0;
         #100
         st = 1'b1;

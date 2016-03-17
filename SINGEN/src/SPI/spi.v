@@ -68,8 +68,7 @@ module SPI#
         .TX_MD(MASTER_TX),
         .RX_SD(MASTER_RX),
         .RST(RST),
-        .LEFT(1'b1),
-        .R(1'b1)
+        .LEFT(1'b1)
         );
 
     SPI_SLAVE #(.m(m)) spi_slave 
@@ -106,27 +105,4 @@ module SPI#
         end
     end
     
-    D2STR_B #(.len(m)) oled_d2b_0
-        (
-        .str(str_m_tx),
-        .d(MASTER_TX)
-        );
-       
-    D2STR_B #(.len(m)) oled_d2b_1
-        (
-        .str(str_s_tx),
-        .d(SLAVE_TX)
-        );   
-   
-    D2STR_B #(.len(m)) oled_d2b_2
-        (
-        .str(str_m_rx),
-        .d(MASTER_RX)
-        );   
-    
-    D2STR_B #(.len(m)) oled_d2b_3
-        (
-        .str(str_s_rx),
-        .d(SLAVE_RX)
-        );  
 endmodule

@@ -38,7 +38,6 @@ module SPI_MASTER#
     output reg [m-1:0] RX_SD=0,
     input LEFT,
     output wire CEfront,
-    input R,
     output wire CEspad
     );
     reg [m-1:0] MQ=0 ; //Регистр сдвига выходных данных MASTER-а
@@ -46,7 +45,7 @@ module SPI_MASTER#
 
     reg [3:0] cb_bit=0; //Счетчик бит
     assign MOSI = LEFT? MQ[m-1] : MQ[0] ; // Выходные данные MASTER-а
-    assign LOAD = !EN_TX ; // Интервал передачи/приема
+    assign LOAD = !EN_TX; // Интервал передачи/приема
     
     assign SCLK = EN_TX & ce;
     

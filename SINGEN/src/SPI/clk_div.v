@@ -24,7 +24,8 @@ module CLK_DIV
     (
     input wire GCLK,
     output reg out = 1'b0,
-    input wire [63:0] T
+    input wire [63:0] T,
+    output reg PULSE = 0
     );
     
     reg [63:0] cnt = 64'd0;
@@ -32,9 +33,13 @@ module CLK_DIV
         if (cnt == 64'd0) begin
             cnt <= T;
             out <= ~out;
-        end
-        else begin
+            PULSE <= 1;
+        end else if (cnt < 64'd10) begin
             cnt <= cnt - 64'd1;
+            PULSE <= 1;        
+        end else begin
+            cnt <= cnt - 64'd1;
+            PULSE <= 0;
         end
     
     end

@@ -114,31 +114,9 @@ module toplevel
 
 
 
-wire [127:0] s1;
-wire [127:0] s2;
-wire [127:0] s3;
-wire [127:0] s4;
-ZedboardOLED OLED
-        (
-        .s1(s1),
-        .s2(s2),
-        .s3(s3),
-        .s4(s4),
-        .DC(DC),
-        .RES(RES),
-        .SCLK(SCLK),
-        .SDIN(SDIN),
-        .VBAT(VBAT),
-        .VDD(VDD),
-        .CLK(GCLK)
-        );
 
 sandbox SANDBOX
         (
-        .OLED_S0(s1),
-        .OLED_S1(s2),
-        .OLED_S2(s3),
-        .OLED_S3(s4),
         .GCLK(GCLK),
         .LD({LD7, LD6, LD5, LD4, LD3, LD2, LD1, LD0}),
         .SW({SW7, SW6, SW5, SW4, SW3, SW2, SW1, SW0}),
