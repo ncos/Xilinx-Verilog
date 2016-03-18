@@ -21,7 +21,7 @@
 
 
 module SPI_testbench();
-    parameter integer m = 10;
+    parameter integer m = 16;
     reg GCLK;
     reg st;
     reg LEFT;
@@ -33,12 +33,12 @@ module SPI_testbench();
     
     // I/O buffers
     wire [m-1:0] MASTER_RX;
-    reg [m-1:0] MASTER_TX = 15'b010110000110110;
+    reg [m-1:0] MASTER_TX = 16'hdeaf;
     wire [m-1:0] SLAVE_RX;
-    reg [m-1:0] SLAVE_TX = 15'b110101100110110;
+    reg [m-1:0] SLAVE_TX = 16'b110101100110110;
     
     wire clk_Tbit; // Clock for bit timing
-        
+        /*
     SPI_MASTER #(.m(m)) spi_master
         (
         .clk(GCLK),
@@ -51,7 +51,17 @@ module SPI_testbench();
         .TX_MD(MASTER_TX),
         .RX_SD(MASTER_RX),
         .LEFT(LEFT)
-        );
+        );*/
+        SPI_sender spi_master (
+            .CLK(GCLK),
+            .DATA(MASTER_TX),
+            .T_DIV(2),
+            .RST(RST),
+            .ST(st),
+            .SCK(SCLK),
+            .MOSI(MOSI),
+            .SS(SS)
+            );
     
     SPI_SLAVE #(.m(m)) spi_slave 
         (
@@ -63,14 +73,14 @@ module SPI_testbench();
         .DIN(SLAVE_TX),
         .DOUT(SLAVE_RX)
         );
-    
+    /*
     CLK_DIV clk_div
         (
         .GCLK(GCLK),
         .out(clk_Tbit),
         .T(64'd2)
         );
-    
+    */
     
     always begin
         GCLK = 1'b0;
@@ -88,7 +98,12 @@ module SPI_testbench();
         st = 1'b1;
         #200
         st = 1'b0;
-        #10000
+        #11000
+        MASTER_TX = 16'habcd;
+        st = 1'b1;
+        #200
+        st = 1'b0;
+        #8000
         $finish;
     end
 endmodule

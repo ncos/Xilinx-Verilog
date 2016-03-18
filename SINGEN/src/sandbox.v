@@ -72,7 +72,7 @@ module sandbox
     end
     
     always @(posedge LCLK) begin
-        TX <= TX + 1;
+        TX <= 16'd771;
     end    
     
 
@@ -96,5 +96,13 @@ module sandbox
             .T(64'd100000),
             .PULSE(pulse)
             );        
+            
+        MEMORY memory
+            (
+            .ADDR(10'd123),
+            .CLK(GCLK),
+            .RE(1'b1),
+            .INIT(1'b1)
+            );
         
 endmodule

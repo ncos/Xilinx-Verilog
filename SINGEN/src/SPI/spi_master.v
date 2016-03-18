@@ -42,9 +42,10 @@ module SPI_MASTER#
     );
     reg [m-1:0] MQ=0 ; //Регистр сдвига выходных данных MASTER-а
     reg [m-1:0] MRX=0 ; //Регистр сдвига входных данных MASTER-а
-
+    reg ss = 0;
+    reg [5:0] T_del = 0;
     reg [3:0] cb_bit=0; //Счетчик бит
-    assign MOSI = LEFT? MQ[m-1] : MQ[0] ; // Выходные данные MASTER-а
+    assign MOSI = LEFT ? MQ[m-1] : MQ[0] ; // Выходные данные MASTER-а
     assign LOAD = !EN_TX; // Интервал передачи/приема
     
     assign SCLK = EN_TX & ce;
