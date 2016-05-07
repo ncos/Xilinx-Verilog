@@ -142,6 +142,9 @@ module toplevel
         );
   
     wire [15:0]  temp_data;
+    wire [15:0]  x_axis_out;
+    wire [15:0]  y_axis_out;
+    wire [15:0]  z_axis_out;
     wire [15:0]  x_axis_data;
     wire [15:0]  y_axis_data;
     wire [15:0]  z_axis_data;
@@ -153,11 +156,58 @@ module toplevel
         .RST(BTND),
         .JA({JA4, JA3, JA2, JA1}),      
         .temp_data_out(temp_data),
-        .x_axis_out(x_axis_data),
-        .y_axis_out(y_axis_data),
-        .z_axis_out(z_axis_data),
+        .x_axis_out(x_axis_out),
+        .y_axis_out(y_axis_out),
+        .z_axis_out(z_axis_out),
+        .x_axis_data(x_axis_data),
+        .y_axis_data(y_axis_data),
+        .z_axis_data(z_axis_data),
         .ang_x(ang_x)
         );
+  
+    wire ready;
+    reg [3:0] tr_count = 0;
+    reg [7:0] tr_data = 0;
+    reg prev_ready = 0;
+    
+    UART_TX uart_tx 
+        (
+        .clk(GCLK),
+        .data_in(tr_data),
+        .out(JB1),
+        .start(1'b1),
+        .reset(~BTNU),
+        .ready(ready)
+        );  
+  
+    always @(posedge GCLK) begin
+        tr_count <= ready && ~prev_ready ? (tr_count == 11 ? 0 : tr_count + 4'd1) : tr_count;
+        prev_ready <= ready;
+        tr_data <= x_axis_data [7:0];
+        case (tr_count)
+            4'd0: begin
+                tr_data <= x_axis_data [7:0];
+            end
+            4'd1: begin
+                tr_data <= x_axis_data [15:8];
+            end
+            4'd2: begin
+                tr_data <= y_axis_data [7:0];
+            end
+            4'd3: begin
+                tr_data <= y_axis_data [15:8];
+            end
+            4'd4: begin
+                tr_data <= z_axis_data [7:0];
+            end
+            4'd5: begin
+                tr_data <= z_axis_data [15:8];
+            end
+            default: begin
+                tr_data <= 8'b01010101;
+            end
+        endcase
+    end  
   
     wire [127:0] w_str_x;
     wire [127:0] w_str_y;
@@ -170,19 +220,19 @@ module toplevel
         (
             .GCLK(GCLK),
             .str(w_str_x),
-            .d(x_axis_data)
+            .d(x_axis_out)
         );
     D2STR_D#(.len(4)) d2str_gyro_y
         (
             .GCLK(GCLK),
             .str(w_str_y),
-            .d(y_axis_data)
+            .d(y_axis_out)
         );  
     D2STR_D#(.len(4)) d2str_gyro_z
         (
             .GCLK(GCLK),
             .str(w_str_z),
-            .d(z_axis_data)
+            .d(z_axis_out)
         );  
     D2STR_D#(.len(4)) d2str_gyro_t
         (
@@ -198,49 +248,7 @@ module toplevel
             .d(ang_x)
         );
 
-    // =============================================
-    // Pmod ACL
-    // =============================================
-    wire [15:0] acl_x;
-    wire [15:0] acl_y;
-    wire [15:0] acl_z;
-    PmodACL ACL_0
-        (
-        .CLK(GCLK),
-		.RST(BTND),
-		.SDI(JB3),
-		.SDO(JB2),
-		.SCLK(JB4),
-		.SS(JB1),
-		.x_out(acl_x),
-		.y_out(acl_y),
-		.z_out(acl_z)
-    );
-
-    wire [127:0] acl_x_str;
-    wire [127:0] acl_y_str;
-    wire [127:0] acl_z_str;
-    D2STR_D#(.len(4)) d2str_acl_x
-        (
-            .GCLK(GCLK),
-            .str(acl_x_str),
-            .d(acl_x)
-        );
-    D2STR_D#(.len(4)) d2str_acl_y
-        (
-            .GCLK(GCLK),
-            .str(acl_y_str),
-            .d(acl_y)
-        );  
-    D2STR_D#(.len(4)) d2str_acl_z
-        (
-            .GCLK(GCLK),
-            .str(acl_z_str),
-            .d(acl_z)
-        );  
-
-
-    // =============================================
+     // =============================================
     // OLED infrastructure
     // =============================================    
     wire oled_refresh_clk;
@@ -258,9 +266,9 @@ module toplevel
     end
     
     always @(posedge oled_refresh_clk) begin
-        str0 <= SW7 ? w_str_x : acl_x_str;
-        str1 <= SW7 ? w_str_y : acl_y_str;
-        str2 <= SW7 ? w_str_z : acl_z_str;
+        str0 <= w_str_x;
+        str1 <= w_str_y;
+        str2 <= w_str_z;
         str3 <= w_str_t;
     end
 endmodule
