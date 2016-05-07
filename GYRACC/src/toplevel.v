@@ -117,30 +117,6 @@ module toplevel
     output wire LD6;
     output wire LD7;
 
-    reg [127:0] str0 = "----------------";
-    reg [127:0] str1 = "----------------";
-    reg [127:0] str2 = "----------------";
-    reg [127:0] str3 = "----------------";
-
-    reg oled_ready = 1'b0;
-    assign LD7 = oled_ready;
-    ZedboardOLED OLED
-        (
-        .clear(BTND),
-        .refresh(oled_ready),
-        .s1(str0),
-        .s2(str1),
-        .s3(str2),
-        .s4(str3),
-        .DC(DC),
-        .RES(RES),
-        .SCLK(SCLK),
-        .SDIN(SDIN),
-        .VBAT(VBAT),
-        .VDD(VDD),
-        .CLK(GCLK)
-        );
-  
     wire [15:0]  temp_data;
     wire [15:0]  x_axis_out;
     wire [15:0]  y_axis_out;
@@ -207,68 +183,5 @@ module toplevel
                 tr_data <= 8'b01010101;
             end
         endcase
-    end  
-  
-    wire [127:0] w_str_x;
-    wire [127:0] w_str_y;
-    wire [127:0] w_str_z;
-    wire [127:0] w_str_t;
-    wire [127:0] w_str_ax;
-
-
-    D2STR_D#(.len(4)) d2str_gyro_x
-        (
-            .GCLK(GCLK),
-            .str(w_str_x),
-            .d(x_axis_out)
-        );
-    D2STR_D#(.len(4)) d2str_gyro_y
-        (
-            .GCLK(GCLK),
-            .str(w_str_y),
-            .d(y_axis_out)
-        );  
-    D2STR_D#(.len(4)) d2str_gyro_z
-        (
-            .GCLK(GCLK),
-            .str(w_str_z),
-            .d(z_axis_out)
-        );  
-    D2STR_D#(.len(4)) d2str_gyro_t
-        (
-            .GCLK(GCLK),
-            .str(w_str_t),
-            .d(temp_data)
-        );
-
-    D2STR_D#(.len(4)) d2str_gyro_ax
-        (
-            .GCLK(GCLK),
-            .str(w_str_ax),
-            .d(ang_x)
-        );
-
-     // =============================================
-    // OLED infrastructure
-    // =============================================    
-    wire oled_refresh_clk;
-    CLK_DIV oled_refresh_clk 
-        (
-        .GCLK(GCLK),
-        .out(oled_refresh_clk),
-        .T(64'd3333333)
-        );
-        
-    always @(posedge GCLK) begin
-        if (BTNC) begin
-            oled_ready <= 1'b1;
-        end
-    end
-    
-    always @(posedge oled_refresh_clk) begin
-        str0 <= w_str_x;
-        str1 <= w_str_y;
-        str2 <= w_str_z;
-        str3 <= w_str_t;
     end
 endmodule

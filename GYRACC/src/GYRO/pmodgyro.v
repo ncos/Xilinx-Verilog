@@ -153,24 +153,6 @@ module PmodGYRO (
 						.sclk(JA[3])
 			);
 
-    
-            data_formatter DF0
-                (
-                .GCLK(clk),
-                .RST(RST),
-                .dec(1'b1),
-                .temp_data_in(temp_data),
-                .x_axis_in(x_axis_data[15:0]),
-                .y_axis_in(y_axis_data[15:0]),
-                .z_axis_in(z_axis_data[15:0]),
-                .x_axis_out(x_axis_out),
-                .y_axis_out(y_axis_out),
-                .z_axis_out(z_axis_out),
-                .temp_data_out(temp_data_out),
-                .ang_x(ang_x)
-                );
-
-
 			//  Assign slave select output
 			assign JA[0] = slave_select;
    
