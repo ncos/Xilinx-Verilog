@@ -1,23 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////////////
-// Company: Digilent Inc.
-// Engineer: Andrew Skreen
-// 
-// Create Date:    07/11/2012
-// Module Name:    spi_interface
-// Project Name: 	 PmodGYRO_Demo
-// Target Devices: Nexys3
-// Tool versions:  ISE 14.1
-// Description: This module is the main interface to the PmodGYRO, it produces
-//					 slave select (SS), master out slave in (MOSI), and serial clock (SCLK)
-//					 signals used in SPI communcation.  Data is read on the master in slave out
-//					 (MISO) input.  SPI mode 3 is used.
-//
-// Revision History: 
-// 						Revision 0.01 - File Created (Andrew Skreen)
-//							Revision 1.00 - Added Comments and Converted to Verilog (Josh Sackos)
-//////////////////////////////////////////////////////////////////////////////////////////
-
 // ==============================================================================
 // 										  Define Module
 // ==============================================================================

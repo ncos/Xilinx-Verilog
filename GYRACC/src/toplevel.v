@@ -118,27 +118,19 @@ module toplevel
     output wire LD7;
 
     wire [15:0]  temp_data;
-    wire [15:0]  x_axis_out;
-    wire [15:0]  y_axis_out;
-    wire [15:0]  z_axis_out;
     wire [15:0]  x_axis_data;
     wire [15:0]  y_axis_data;
     wire [15:0]  z_axis_data;
-    wire [15:0]  ang_x;
 
     PmodGYRO GYRO_0
         (
         .clk(GCLK),
         .RST(BTND),
         .JA({JA4, JA3, JA2, JA1}),      
-        .temp_data_out(temp_data),
-        .x_axis_out(x_axis_out),
-        .y_axis_out(y_axis_out),
-        .z_axis_out(z_axis_out),
+        .temp_data(temp_data),
         .x_axis_data(x_axis_data),
         .y_axis_data(y_axis_data),
-        .z_axis_data(z_axis_data),
-        .ang_x(ang_x)
+        .z_axis_data(z_axis_data)
         );
   
     wire ready;

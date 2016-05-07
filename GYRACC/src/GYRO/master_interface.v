@@ -1,23 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////////////
-// Company: Digilent Inc.
-// Engineer: Andrew Skreen
-// 
-// Create Date:    07/11/2012
-// Module Name:    master_interface
-// Project Name: 	 PmodGYRO_Demo
-// Target Devices: Nexys3
-// Tool versions:  ISE 14.1
-// Description: This module manages the data that is to be written to the PmodGYRO, and
-//					 produces the signals to initiate a data transfer via the spi_interface
-//					 component.  Once the master_interface receives a handshake from the
-//					 spi_interface component data has been read from the PmodGYRO and is stored.
-//
-// Revision History: 
-// 						Revision 0.01 - File Created (Andrew Skreen)
-//							Revision 1.00 - Added Comments and Converted to Verilog (Josh Sackos)
-//////////////////////////////////////////////////////////////////////////////////////////
-
 // ==============================================================================
 // 										  Define Module
 // ==============================================================================
